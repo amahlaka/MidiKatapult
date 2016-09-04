@@ -75,6 +75,7 @@ void interpretMessage(String message) {
       slaveConnected = true;
       wasConnected = true;
       lastping = (new Date()).getTime();
+      displaystate = true;
       if (displaystate) loadLayout(selectedPage);
   }
   //if (message.equals("DISCONNECT")) slaveConnected = false;
@@ -86,7 +87,7 @@ void interpretMessage(String message) {
     if (components.length == 2) {
       if (!components[0].equals("") && !components[1].equals("")) {
         if (components[0].equals("meta")) {
-          if (allgood) {
+          if (!allgood) {
           if (components[1].equals("prev") && currentPage > 1) {
             selectedPage = pageNumbers[indexForKey(pageNumbers, selectedPage)-1]; loadLayout(selectedPage);
           }

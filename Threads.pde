@@ -15,7 +15,7 @@ class Scheduler implements Runnable {
   public void run() {
     while (!target.canUpdate()) {
       try {
-        thread.sleep(40);
+     //   Thread.sleep(40);
       } catch (Exception e) {
         print(e);
       }
@@ -39,16 +39,16 @@ class CrsUpdater implements Runnable {
   public void run() {
     target.running = true;
     try {
-      debug("Updater thread spawned: "+this);
-      while (target.factor != 0) {
+      println("Updater thread spawned: "+this);
+    while (target.factor != 0) {
         target.updateValue();
-        thread.sleep(25);
+      //  Thread.sleep(25);
       }
     } catch (Exception e) {
       
     }
-    target.running = false;
-    debug("Updater thread died: "+this);
+   // target.running = false;
+    println("Updater thread died: "+this);
   } 
 }
 
@@ -96,7 +96,7 @@ class TakeOver implements Runnable {
       if (!(target.threadsFinished == threadnumber - 1)) wait = true;
       while (wait) {
 
-          thread.sleep((int)(1000/FRAMERATE));
+       //   Thread.sleep((int)(1000/FRAMERATE));
           waitTime = (new Date()).getTime() - started;
           probeValues[probeCount] = target.value;
           probeCount--; if (probeCount == -1) probeCount = 3;
@@ -109,7 +109,7 @@ class TakeOver implements Runnable {
       
       //debug(target+" got past que wait");
       
-      thread.sleep(25);
+    //  Thread.sleep(25);
       
       this.mvalue = target.value;
       this.initialmvalue = mvalue;
@@ -126,7 +126,7 @@ class TakeOver implements Runnable {
             mvalue += 1;
             //debug(target+" waiting for "+takeover+" mills");
             //try {
-              thread.sleep(takeover);
+             // Thread.sleep(takeover);
             //} catch (Exception e) {
             //  debug("Exception while sleeping "+target+":\n"+e);
             //}
@@ -142,7 +142,7 @@ class TakeOver implements Runnable {
             mvalue -= 1;
             //debug(target+" waiting for "+takeover+" mills");
             //try {
-              thread.sleep(takeover);
+            //  Thread.sleep(takeover);
             //} catch (Exception e) {
             //  debug("Exception while sleeping "+target+":\n"+e);
             //}
@@ -157,7 +157,7 @@ class TakeOver implements Runnable {
       target.threadsFinished++;
       //debug(target+" sleeping for cleanup");
       //try {
-        thread.sleep(1000);
+        //Thread.sleep(1000);
       //} catch (Exception e) {
       //  debug("Exception while sleeping "+target+":\n"+e);
       //}
@@ -207,7 +207,7 @@ class TakeOver2d implements Runnable {
     
     while (!(target.threadsFinished == threadnumber - 1)) {
       try {
-        thread.sleep((int)(1000/FRAMERATE));
+        //Thread.sleep((int)(1000/FRAMERATE));
       } catch (Exception e) {
         //debug("Exception while sleeping "+this+":\n"+e);
       }
@@ -264,16 +264,15 @@ class TakeOver2d implements Runnable {
       //debug(target+" in takeover. mxvalue="+mxvalue+" myvalue="+myvalue);
       target.takeoverSetValue((int)round(mxvalue), (int)round(myvalue));
       //debug("Waiting for "+takeover+" mills");
-      sleep(takeover);
+   //   sleep(takeover);
     }
     
     target.threadsFinished++;
     try {
-      thread.sleep(1000);
+     //Thread.sleep(1000);
     } catch (Exception e) {
       //debug("Exception while sleeping "+this+":\n"+e);
     }
     if (target.threadsFinished == target.threadsSpawned) target.TAKEOVER = false;
   }
 }
-

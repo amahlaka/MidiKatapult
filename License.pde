@@ -1,20 +1,19 @@
 import java.security.MessageDigest;
 String dpr;
 
-static String UNLICENSED = "Unlicensed";
+static String UNLICENSED = " ";
 
 class License extends Object {
   int demotime = 1800;
   long sessionT;
   String[] licenseKey;
-  protected boolean valid = false;
+  protected boolean valid = true;
   MessageDigest md;
   
   public License() {
     sessionT = (new Date()).getTime();
     dpr = "";
-    if (DEBUG) dpr = "/Users/markqvist/Documents/Processing/midikatapult/";
-    licenseKey = loadStrings(dpr+"license.txt");
+    
     try {
       //println("License test running...");
       md = MessageDigest.getInstance("MD5");
@@ -49,10 +48,7 @@ class License extends Object {
 }
 
 boolean demoIsValid() {
-  long now = (new Date()).getTime();
-  if (now - license.sessionT < license.demotime*1000) {
+  
     return true;
-  } else {
-    return false;
-  }
+
 }

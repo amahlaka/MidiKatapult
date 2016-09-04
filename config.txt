@@ -1,6 +1,6 @@
-abletonlive=yes
-liveusermode=1
-//headless=yes
+// abletonlive=yes
+// liveusermode=1
+// headless=yes
 
 // <- These two slashes means, that a line is a comment.
 // If you want to use any of the example configuration lines
@@ -14,15 +14,15 @@ liveusermode=1
 
 // You can set the input device with a line like this:
 
-// in=Traktor Out
+// in=
 
 // You can set the output device with a line like this:
 
-// out=Traktor In
+// out=
 
 // If you want Katapult to run in silent mode, use this line:
 
-// silent=yes
+// silent=no
 
 // In silent mode, Katapult will not display any user interface,
 // thus saving CPU and making updates faster. This is especially
@@ -46,7 +46,7 @@ liveusermode=1
 // pagebuttonoffcolor=amber
 // indicatoroncolor=green
 // indicatoroffcolor=red
-// padoncolor=yellow
+// padoncolor=yellowAbcAbcbcbc
 // padoffcolor=amber
 // meteroncolor=green
 // meteroffcolor=amber
@@ -68,15 +68,17 @@ liveusermode=1
 // You can customize the demo being shown when pressing the mixer
 // button by using the following commands:
 
-demochoice=6
+demochoice=1
 
 // choices here are 1-6, where 6 is a text scroller. Specify the
 // text like this:
 
-demotext=sarah
+demotext=TWAT
 demotextcolor=red
 
 // Or create your own bitmap and display whatever you want
 // like this
-in=Out
-out=In
+// in=Out
+// out=In
+in=LoopBe Internal MIDI
+out=Microsoft GS Wavetable Synth

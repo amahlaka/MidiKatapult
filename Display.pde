@@ -5,14 +5,17 @@ boolean displaystate = false;
 boolean dlock = false;
 
 void display(int x, int y, int lcolor) {
-  if (!SILENTMODE) {
-    while (dlock);
-    dlock = true;
-    fill(64, 64, 64);
-    noStroke();
-    smooth();
+  if (displaystate) {
+    
+    
+    
+  
+   
+    
     int o = 150;
-    if (x >= 0 && x < 8 && y >= 0 && y < 8 && displaystate) rect((x*buttonSize)+FRAMEBORDER+offset, (y*buttonSize)+FRAMEBORDER+offset, buttonSize-offset, buttonSize-offset);
+  
+      
+    
     if (lcolor == RED) fill(255, 0, 0, o);
     if (lcolor == REDL) fill(127, 0, 0, o);
     if (lcolor == GREEN) fill(0, 255, 0, o);
@@ -29,10 +32,10 @@ void display(int x, int y, int lcolor) {
     if (lcolor == MAGENTAL) fill(127, 0, 127, o);
     if (lcolor == WHITE) fill(230, 230, 230, o);
     if (lcolor == WHITEL) fill(180, 180, 200, o);
+    rect((x*buttonSize)+FRAMEBORDER+offset, (y*buttonSize)+FRAMEBORDER+offset, buttonSize-offset, buttonSize-offset);
     
-    
-    if (x >= 0 && x < 8 && y >= 0 && y < 8 && displaystate) {
-      rect((x*buttonSize)+FRAMEBORDER+offset, (y*buttonSize)+FRAMEBORDER+offset, buttonSize-offset, buttonSize-offset);
+    if (x >= 0 && x < 8 && y >= 0 && y < 8 ) {
+      
       o = 16;
       if (lcolor == RED) fill(255, 0, 0, o);
       if (lcolor == REDL) fill(127, 0, 0, o);
@@ -49,68 +52,82 @@ void display(int x, int y, int lcolor) {
       if (lcolor == MAGENTAL) fill(127, 0, 127, o);
       if (lcolor == WHITE) fill(230, 230, 230, o);
       if (lcolor == WHITEL) fill(200, 200, 200, o);
-      
-      noStroke();
-      for(int i = 30; i > 0; i--) {
-        ellipse((x*buttonSize+(buttonSize/2))+FRAMEBORDER+offset, (y*buttonSize+(buttonSize/2))+FRAMEBORDER+offset, (buttonSize-i*2)-4, (buttonSize-i*2)-4);
-      }
+      for (int i = 0; i < 64; i++) {
+      if (true) rect((x*buttonSize)+FRAMEBORDER+offset, (y*buttonSize)+FRAMEBORDER+offset, buttonSize-offset, buttonSize-offset);
     }
-    dlock = false;
+      rect((x*buttonSize)+FRAMEBORDER+offset, (y*buttonSize)+FRAMEBORDER+offset, buttonSize-offset, buttonSize-offset);
+      
+      for(int i = 30; i > 0;) {
+        ellipse((x*buttonSize+(buttonSize/2))+FRAMEBORDER+offset, (y*buttonSize+(buttonSize/2))+FRAMEBORDER+offset, (buttonSize-i*2)-4, (buttonSize-i*2)-4);
+      i--;
+    }
+    }
+  
   }
 }
 
 void ledOn(int x, int y, int lcolor) {
-  if (displaystate) {
-    int address = (y*16) + x;
-    if (!NETWORK) launchpad.sendOn(address, lcolor, 0);
-    if (online) slaveOn(x, y, lcolor);
+  println("ledon");
+  
+  if (true) {
+    
+    displaystate=true;
     display(x, y, lcolor);
+
+    int address = (y*16) + x;
+    launchpad.sendOn(address, lcolor, 0); 
+    
+    
   }
 }
 
 void ledOff(int x, int y) {
-  if (displaystate) {
+  debug("ledoff");
+  if (true) {
+    displaystate=true;
+    display(x, y, 0);
     int address = (y*16) + x;
-    if (!NETWORK) launchpad.sendOn(address, 0, 0);
+    launchpad.sendOn(address, 0, 0);
   }
 }
 
 void clearDisplay() {
+  println("displayClear");
   if (displaystate) {
     if (!NETWORK) launchpad.sendCtl(0, 0, 0);
-    if (online) slaveClear();
+    
     fill(64, 64, 64);
     for (int i = 0; i < 64; i++) {
-      if (!SILENTMODE) rect(((i%8)*buttonSize)+FRAMEBORDER+offset, ((int)((float)i/8)*buttonSize)+FRAMEBORDER+offset, buttonSize-offset, buttonSize-offset);
+      if (true) rect(((i%8)*buttonSize)+FRAMEBORDER+offset, ((int)((float)i/8)*buttonSize)+FRAMEBORDER+offset, buttonSize-offset, buttonSize-offset);
     }
   }
 }
 
 void pageName() {
   pagename = pagenames[selectedPage-1];
-  //debug("pageName()"+pagename);
+  println("pageName()"+pagename);
   fill(#000000);
   noStroke();
   rect(0, WINDOWSIZE-12, 250, 12);
   fill(#FFFFFF);
   textFont(f11, 11);
-  smooth();
+  
   textAlign(LEFT);
   if (pagename != null) text(pagename, 2, WINDOWSIZE-2);
 }
 
 int randomColor() {
-  colors[0] = BLACK;
-  colors[1] = BLUE;
+  colors[0] = RED;
+  colors[1] = AMBER;
   colors[2] = RED;
-  colors[3] = CYAN;
-  colors[4] = AMBER;
-  colors[5] = YELLOW;
-  colors[6] = GREEN;
-  colors[7] = MAGENTA;
-  colors[8] = BLACK;
-  colors[9] = BLACK;
-  colors[10] = BLACK;
+  colors[3] = GREEN;
+  colors[4] = RED;
+  colors[5] = RED;
+  colors[6] = YELLOW;
+  colors[7] = RED;
+  colors[8] = RED;
+  colors[9] = RED;
+  colors[10] = RED;
   
   int select = (int)random(11);
   

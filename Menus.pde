@@ -140,8 +140,8 @@ void menus() {
           text("No Launchpad detected via USB\nWaiting for network connection...", WINDOWSIZE/2, WINDOWSIZE/2);
           if (!online) {
             initServer();
-            NETWORK = true;
-            NOSEND = true;
+            NETWORK = false;
+            NOSEND = false;
           }
           if (slaveConnected) {
             mousestate = "hold";
@@ -169,7 +169,7 @@ void menus() {
     fill(#FFFFFF);
     textFont(f11, 11);
     textAlign(RIGHT);
-    smooth();
+    
     text(UNLICENSED+" v:"+VERSION, WINDOWSIZE-2, WINDOWSIZE-2);
   }
 }

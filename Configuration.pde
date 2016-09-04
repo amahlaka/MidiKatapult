@@ -7,13 +7,13 @@ static String SOFTWARE = "";
 static String SOFTWAREIN = "";
 static String SOFTWARESEL = "";
 static String SOFTWAREINSEL = "";
-static boolean DEBUG = false;
+static boolean DEBUG = true;
 static boolean NOSEND = false;
 static boolean NETWORK = false;
 static boolean HEADLESS = false;
 static boolean LIVECONTROL = false;
 static boolean LIVEENABLED = false;
-static int USERMODE = 1;
+static int USERMODE = 2;
 static int MAXCHAINS = 64;
 static boolean DEMO = false;
 static String DEMOTEXT = "katapult";
@@ -21,13 +21,12 @@ static int DEMOCHOICE = -1;
 static boolean SILENTMODE = false;
 
 // Internal variables
-static String config[];
 static int CLINESIN = -1;
 static int CLINESOUT = -1;
 static boolean DEVICECONFIG = false;
 
 void loadConfig() {
-  config = loadStrings("config.txt");
+ config = loadStrings("config.txt");
   for (int i = 0; i < config.length; i++) {
     String configLine[] = split(config[i], "=");
     if (configLine[0].equals("in")) {
@@ -42,9 +41,9 @@ void loadConfig() {
     }
     if (configLine[0].equals("abletonlive")) {
       if (configLine[1].equals("yes")) { LIVEENABLED = true; }
-    }
-    if (configLine[0].equals("liveusermode")) {
-      if (configLine[1].equals("2")) { USERMODE = 2; }
+   }
+   if (configLine[0].equals("liveusermode")) {
+     if (configLine[1].equals("2")) { USERMODE = 2; }
     }
     if (configLine[0].equals("silent")) {
       if (configLine[1].equals("yes")) { SILENTMODE = true; WINDOWSIZE = 150; }

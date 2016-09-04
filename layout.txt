@@ -14,9 +14,13 @@ page 1 Transport & EQ
 
 crsfader 0 6 8
 
+
 note 0 4 3 c 120
-note 1 4 3 d 120 toggle
+
+note 1 4 3 d 120 
+toggle
 note 2 4 3 e 120
+
 note 3 4 3 f 120
 
 button 0 0 toggle velocity=89
@@ -30,11 +34,13 @@ button 2 1 hold
 button 3 1 hold
 
 // And then some faders:
-
-//yfader 0 7 5 takeover=1
-//yfader 1 7 5 takeover=1
-//yfader 2 7 5 takeover=1
-//yfader 3 7 5 takeover=1
+button 9 0 toggle
+button 9 1 toggle
+button 9 2 toggle
+yfader 0 7 5 takeover=1
+yfader 1 7 5 takeover=1
+yfader 2 7 5 takeover=1
+yfader 3 7 5 takeover=1
 
 // These faders have takeover activated on them.
 // This means that they'll move smoothly from one
@@ -58,7 +64,7 @@ button 5 1 hold
 button 6 1 hold
 button 7 1 hold
 
-//yfader 4 7 5 takeover=1
+yfader 4 7 5 takeover=1
 //yfader 5 7 5 takeover=1
 //yfader 6 7 5 takeover=1
 //yfader 7 7 5 takeover=1
@@ -81,12 +87,16 @@ page 2 FX Pad 1
 
 oncolor red
 pad 0 0 7 7 takeover=1
+
 oncolor green
-button 0 7 toggle
+
+button 0 7 
+toggle
 yfader 7 7 8 takeover=1
 
 page 3 FX Pad 2
 oncolor red
+
 pad 0 0 8 8 takeover=1
 
 page 4 Controller chaining
@@ -179,7 +189,7 @@ button 5 7 toggle
 offcolor yellow
 button 6 0 toggle
 button 6 1 toggle
-button 6 2 toggle
+button 6 2 toggle		
 button 6 3 toggle
 button 6 4 toggle
 button 6 5 toggle
@@ -212,23 +222,42 @@ pad 0 4 4 4
 page 7 One big 2D Pad
 pad 0 0 8 8 takeover=4
 
+
 defaultcolors
 
+
 page 8 Drumracks
+
 drumrack 0 0 4 4 3 c 115
+
 drumrack 4 4 4 4 5 c 120
 
+
 page 9 Keyboard shortcuts
-kbd 0 0 command+tab
+
+kbd 0 0 shift+tab
+
 kbd 1 0 shift+a
-kbd 2 0 b
-kbd 3 0 c
+
+kbd 2 0 c toggle
+kbd 8 2 b
 
 page 10
+
+
 oncolor green
+
 offcolor red
+
 xslider 0 3 8 4
 
+
 note 0 0 3 c 120
-button 1 0 toggle
+
+button 1 0 
+
+note 2 0 3 e 120
+
+
+toggle
 chain 1 0 to 0 0

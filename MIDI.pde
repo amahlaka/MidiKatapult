@@ -1,5 +1,5 @@
-import javax.sound.midi.*;
-import javax.sound.midi.MidiUnavailableException;
+
+
 
 MIDI launchpad;
 MIDI software;
@@ -41,7 +41,7 @@ class MIDI extends Object {
       for (int i = 0; i < infos.length; i++) {
         //debug(i+": "+infos[i].getName()+", "+infos[i].getDescription()+", "+MidiSystem.getMidiDevice(infos[i]).getMaxReceivers());
 
-        if (target.equals(infos[i].getName()) && (MidiSystem.getMidiDevice(infos[i]).getMaxReceivers() > 0 || MidiSystem.getMidiDevice(infos[i]).getMaxReceivers() == -1)) {
+        if (infos[i].getName().contains(target) && (MidiSystem.getMidiDevice(infos[i]).getMaxReceivers() > 0 || MidiSystem.getMidiDevice(infos[i]).getMaxReceivers() == -1)) {
           deviceNumber = i;
         }
       }
@@ -142,7 +142,7 @@ class MIDIinput extends Object {
       for (int i = 0; i < infos.length; i++) {
         //debug(i+": "+infos[i].getName()+", "+infos[i].getDescription()+", "+MidiSystem.getMidiDevice(infos[i]).getMaxTransmitters());
 
-        if (target.equals(infos[i].getName()) && (MidiSystem.getMidiDevice(infos[i]).getMaxTransmitters() > 0 || MidiSystem.getMidiDevice(infos[i]).getMaxTransmitters() == -1)) {
+        if (infos[i].getName().contains(target) && (MidiSystem.getMidiDevice(infos[i]).getMaxTransmitters() > 0 || MidiSystem.getMidiDevice(infos[i]).getMaxTransmitters() == -1)) {
           deviceNumber = i;
         }
       }
@@ -225,6 +225,11 @@ class MIDIListener implements Receiver {
           if (data[1] == 106 && data[2] == 127 && currentPage > 1) {
             selectedPage = pageNumbers[indexForKey(pageNumbers, selectedPage)-1]; loadLayout(selectedPage);
           }
+          if (data[1] == 104 && data[2] == 127){
+          clearDisplay();
+          displaystate = true;
+        loadLayout(currentPage);
+      }
         }
         
         if (data[1] == 111 && data[2] == 127) {
@@ -233,6 +238,7 @@ class MIDIListener implements Receiver {
             //debug("Demo " + DEMO);
             if (DEMO == false) {
               clearDisplay();
+              displaystate = true;
               loadLayout(currentPage);
             }
           }
@@ -266,6 +272,7 @@ class MIDIListener implements Receiver {
             LIVECONTROL = false;
             NOSEND = false;
             sleep(500);
+            displaystate = true;
             loadLayout(selectedPage);
           } else {
             clearDisplay();
@@ -309,7 +316,7 @@ void noteOut(int note, int vel) {
 
 void launchpadAction(int segment, int value){
   if (LIVECONTROL == false) {
-  if (license.isValid() || demoIsValid()) {
+  if (license.isValid() ) {
     debug("MIDI from X" + segment + " " + value);
     if (segment == 8 || segment == 24 || segment == 40 || segment == 56 || segment == 72 || segment == 88 || segment == 104 ) {
       if (segment == 8) segment = 65;
@@ -348,7 +355,7 @@ void launchpadAction(int segment, int value){
     fill(#FFFFFF);
     textFont(f20, 20);
     textAlign(CENTER);
-    smooth();
+    
     text("Demo period expired\nRelaunch or get a license :)", WINDOWSIZE/2, WINDOWSIZE/2);
     mousestate = "quit";
   }

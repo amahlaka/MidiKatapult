@@ -1,6 +1,6 @@
 import java.awt.Robot;
 import java.awt.event.InputEvent.*;
-
+import java.awt.event.KeyEvent;
 class Control {
   int x;
   int y;
@@ -66,12 +66,16 @@ class Control {
 
 class GridSegment extends Control {
   void on() {
-    debug(this+"x="+this.x+" y="+this.y+" on()");
+    //debug(this+"x="+this.x+" y="+this.y+" on()");
+    displaystate=true;
+    display(x, y, idlecolor);
     ledOn(x, y, activecolor);
   }
   
   void off() {
-    debug(this+"x="+this.x+" y="+this.y+" off()");
+    //debug(this+"x="+this.x+" y="+this.y+" off()");
+    displaystate=true;
+    display(x, y, idlecolor);
     ledOn(x, y, idlecolor);
   }
 }
@@ -81,7 +85,7 @@ class PageButton extends GridSegment {
   
   PageButton(int inumber) {
     page = selectedPage;
-    //println(this+" on page "+page);
+    println(this+" on page "+page);
     number = inumber;
     idlecolor = PAGEBUTTONIDLECOLOR;
     activecolor = PAGEBUTTONACTIVECOLOR;
@@ -101,11 +105,13 @@ class PageButton extends GridSegment {
   }
 }
 
+
+
 class LED extends GridSegment {
   LED(int ix, int iy) {
     controlID = (int)random(1000);
     page = selectedPage;
-    //println(this+" on page "+page);
+    println(this+" on page "+page);
     x = ix;
     y = iy;
     value = 0;
@@ -174,6 +180,7 @@ class Button extends GridSegment {
       idlecolor = TOGGLEOFFCOLOR;
       activecolor = TOGGLEONCOLOR;
     }
+    displaystate = true;
     ledOn(x, y, idlecolor);
   }
   
@@ -535,10 +542,11 @@ class Kbd extends GridSegment {
   int note;
   int vel;
   boolean sendoff = false;
+  boolean toggle = false;
   Robot robot;
   int keys[];
 
-  Kbd(int ix, int iy, String keystring) {
+  Kbd(int ix, int iy, String keystring, boolean ktoggle) {
     controlID = (int)random(1000);
     page = selectedPage;
     //println(this+" on page "+page);
@@ -546,6 +554,7 @@ class Kbd extends GridSegment {
     y = iy;
     value = 0;
     state = OFF;
+    toggle = ktoggle;
     timeout = 0;
     idlecolor = KBDIDLECOLOR;
     activecolor = KBDACTIVECOLOR;
@@ -649,12 +658,15 @@ class Kbd extends GridSegment {
     if (keystr.equals("-")) return KeyEvent.VK_MINUS;
     return 0;
   }
-  
+ 
   void send() {
     for (int i = 0; i < keys.length; i++) {
       if (keys[i] != 0) {
         debug("Sending keyPress "+keys[i]);
         robot.keyPress(keys[i]);
+       
+    
+        
       }
     }
   }
@@ -667,7 +679,38 @@ class Kbd extends GridSegment {
     }
   }
 
+
   void down() {
+    if (!toggle) {
+      send();
+      on();
+    } else {
+      if (state == OFF) {
+        state = ON;
+        send();
+        on();
+        state = ON;
+        
+      } else if (state == ON) {
+      
+        
+        sendOff();
+        off();
+        state = OFF;
+      }
+    }
+}
+  
+  void up() {
+    if (!toggle) {
+      sendOff();
+      off();
+    }
+  }
+
+
+
+/*  void down() {
     send();
     on();
   }
@@ -676,7 +719,7 @@ class Kbd extends GridSegment {
     sendOff();
     off();
   }
-  
+  */
   void update() {
     if (value == 0) {
       off();
@@ -2221,4 +2264,3 @@ class CrsFader extends Control {
   }
         
 }
-

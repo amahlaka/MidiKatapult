@@ -47,7 +47,7 @@ class MText extends Object {
       fill(#FFFFFF);
       textFont(f40, 40);
       textAlign(CENTER);
-      smooth();
+     
       text(text, (int)x, (int)y);
     }
   }
@@ -99,7 +99,7 @@ class MLine extends Object {
     }
     if (animate) {
       stroke(#FFFFFF);
-      smooth();
+      
       line(startx, starty, x, y);
     }
   }

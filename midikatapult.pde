@@ -1,9 +1,26 @@
+// Original code: markqvist
+// Fixes: amahlaka
+// Github: https://github.com/amahlaka/MidiKatapult/
+
+
+// Import libs
+// Install the library files included in /Documentation/librarys.zip as well!!
+
+import javax.sound.midi.*;
+import java.util.Date;
+import netP5.*;
+import oscP5.*;
+import java.awt.AWTException;
+// Set Variables
 License license = new License();
 boolean lpdetect = false;
 boolean allgood = false;
 int delay;
-
+String[] licenseKey;
+String config[];
 void setup(){
+  licenseKey = loadStrings("license.txt");
+  config = loadStrings("config.txt");
   loadConfig();
   setupDemos();
   f10 = loadFont("10.vlw");
@@ -12,20 +29,22 @@ void setup(){
   f18 = loadFont("18.vlw");
   f20 = loadFont("20.vlw");
   f40 = loadFont("40.vlw");
-  size(WINDOWSIZE, WINDOWSIZE);
+  surface.setSize(WINDOWSIZE, WINDOWSIZE);
+
   background(0);
-  frameRate(FRAMERATE);
-  launchpad = new MIDI("Launchpad");
+  frameRate(15);
+  launchpad = new MIDI("Launchpad"); //Define name of Launchpad, Any device containing this name will be detected!
+  
   if (launchpad.initialised) launchpad.sendCtl(0, 0, 0);
   sleep(500);
   if (launchpad.initialised) launchpad.sendCtl(0, 0, 0);
   
   if (launchpad.initialised) {
-    //debug("Launchpad detected, huzzah!");
+    //debug("Launchpad has been detected");
     launchpad.reset();
     splash(true);
   } else {
-    //debug("Oh sorrow... No Launchpad was detected...");
+    //debug("No Launchpad was detected, make sure that the usb is connected and drivers installed");
     splash(false);
   }
 }
@@ -44,9 +63,9 @@ void splash(boolean success) {
     }
   }
   if (!SILENTMODE) {
-    if (success) { launchpad.reset(); DEMO = true; displaystate = true; }
+    if (success) { launchpad.reset(); DEMO = false; displaystate = true; }
     lpdetect = success;
-    delay = 15;
+   // delay = 15;
     state = "splash";
     menustate = "midiout";
     katapult = new MText("Katapult", 0, WINDOWSIZE/2);
@@ -82,16 +101,18 @@ void initMidiSystem() {
     loadLayout(PAGESELECTOR);
   }
   displaystate = true;
-  loadLayout(1);
+  loadLayout(2);
   demo = sdemo;
   allgood = true;
 }
 
 void draw() {
+  displaystate=true;
+  menus();
   if (online) readServer();
   if (DEMO) demos();
-  menus();
-}
+  
+  }
 
 void cleanup() {
   clearDisplay();
@@ -109,7 +130,7 @@ public void stop() {
 
 void mousePressed() {
   if (mousestate.equals("quit")) {
-    displaystate = false;
+    displaystate = true;
     clearDisplay();
     exit();
   }
@@ -128,9 +149,7 @@ void keyPressed() {
 
 // Testing functions
 
-void debug(String msg) {
-  if (DEBUG) println(msg);
-}
+
 
 int indexForKey(int[] a, int target) {
   for (int i = 0; i < a.length; i++) {
